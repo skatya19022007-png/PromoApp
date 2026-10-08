@@ -1,0 +1,60 @@
+﻿@model List<PromoApp.Models.TblPromotion>
+
+<div style="display: flex; justify-content: space-between; align-items: center;">
+    <h2>Список акцій</h2>
+    <a asp-action="Create" class="btn btn-blue">+ Створити акцію</a>
+</div>
+
+<div style="margin: 15px 0;">
+    <strong>Фільтр за статусом:</strong>
+    <a asp-action="Index" asp-route-status="all" class="btn btn-gray">Всі</a>
+    <a asp-action="Index" asp-route-status="past" class="btn btn-gray">Минулі</a>
+    <a asp-action="Index" asp-route-status="active" class="btn btn-gray">Активні</a>
+    <a asp-action="Index" asp-route-status="future" class="btn btn-gray">Майбутні</a>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>Назва</th>
+            <th>Початок</th>
+            <th>Кінець</th>
+            <th>Статус</th>
+            <th>Дія</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var promo in Model)
+        {
+            <tr>
+                <td><strong>@promo.Title</strong></td>
+                <td>@promo.StartDate.ToString("dd.MM.yyyy")</td>
+                <td>@promo.EndDate.ToString("dd.MM.yyyy")</td>
+                <td>
+                    @if (promo.Status == "минула")
+                    {
+                        <span style="color: gray;">Минула</span>
+                    }
+                    @if (promo.Status == "активна")
+                    {
+                        <span style="color: green; font-weight: bold;">Активна</span>
+                    }
+                    @if (promo.Status == "майбутня")
+                    {
+                        <span style="color: blue; font-weight: bold;">Майбутня</span>
+                    }
+                </td>
+                <td>
+                    @if (promo.Status == "майбутня")
+                    {
+                        <a asp-action="Edit" asp-route-id="@promo.Id" class="btn btn-blue" style="font-size: 12px;">Редагувати</a>
+                    }
+                    else
+                    {
+                        <span style="color: #9ca3af; font-size: 12px;">Недоступно</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

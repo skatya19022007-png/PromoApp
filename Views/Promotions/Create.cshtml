@@ -1,0 +1,49 @@
+﻿@model PromoApp.Models.TblPromotion
+
+<h2>Створення нової акції</h2>
+
+<form asp-action="Create" method="post">
+    <div style="margin-bottom: 12px;">
+        <label>Назва акції:</label><br />
+        <input asp-for="Title" required style="width: 100%; padding: 6px;" />
+    </div>
+
+    <div style="display: flex; gap: 15px; margin-bottom: 15px;">
+        <div style="flex: 1;">
+            <label>Дата початку:</label><br />
+            <input type="date" asp-for="StartDate" required style="width: 100%; padding: 6px;" />
+        </div>
+        <div style="flex: 1;">
+            <label>Дата завершення:</label><br />
+            <input type="date" asp-for="EndDate" required style="width: 100%; padding: 6px;" />
+        </div>
+    </div>
+
+    <h4>Додати товари зі знижкою</h4>
+    <div id="items-box">
+        <div class="item-row" style="display: flex; gap: 10px; margin-bottom: 10px;">
+            <select name="productIds" style="flex: 2; padding: 6px;">
+                <option value="0">Оберіть товар...</option>
+                @foreach (var prod in ViewBag.Products as List<PromoApp.Models.TblProduct>)
+                {
+                    <option value="@prod.Id">@prod.Name (@prod.BasePrice грн)</option>
+                }
+            </select>
+            <input type="number" name="discounts" placeholder="Знижка %" min="1" max="100" style="flex: 1; padding: 6px;" />
+        </div>
+    </div>
+
+    <button type="button" class="btn btn-gray" onclick="addRow()">+ Додати ще товар</button>
+    <br /><br />
+    <button type="submit" class="btn btn-blue">Зберегти акцію</button>
+    <a asp-action="Index" class="btn btn-gray">Скасувати</a>
+</form>
+
+<script>
+    function addRow() {
+        var box = document.getElementById('items-box');
+        var row = box.querySelector('.item-row').cloneNode(true);
+        row.querySelectorAll('input, select').forEach(i => i.value = (i.tagName === 'SELECT' ? 0 : ''));
+        box.appendChild(row);
+    }
+</script>

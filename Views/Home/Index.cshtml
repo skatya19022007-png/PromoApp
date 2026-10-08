@@ -1,0 +1,8 @@
+﻿<h2>Стартова сторінка</h2>
+<p>Вітаємо в системі, <strong>@User.Identity?.Name</strong>!</p>
+
+@if (User.IsInRole("Менеджер акцій"))
+{
+    <p>Ваша роль: <strong>Менеджер акцій</strong></p>
+    <a asp-controller="Promotions" asp-action="Index" class="btn btn-blue">Перейти до списку акцій</a>
+}
